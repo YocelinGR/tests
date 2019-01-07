@@ -1,0 +1,7 @@
+/** Remember to add any new CSS files to your html page using a link tag **/
+/** <link rel="stylesheet" type="text/css" href="css/01_csw_homepage.css"> **/
+
+/** Write your CSS rules below**/
+h1{
+  color: black;
+}
