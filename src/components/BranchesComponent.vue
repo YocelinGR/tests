@@ -1,5 +1,5 @@
 <template>
-  <div class="column branches is-half is-hidden">
+  <div class="column branches is-half">
     <!--Render Warehouse information-->
     <EnterpriseBanner></EnterpriseBanner>
     <ItemCompany></ItemCompany>

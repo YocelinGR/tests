@@ -24,7 +24,8 @@ export default {
     return {
       users: {},
       companies: [],
-      branches: []
+      branches: [],
+      showBranch: true
     };
   },
   mounted() {
