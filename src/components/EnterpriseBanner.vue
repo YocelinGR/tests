@@ -12,10 +12,11 @@
 </template>
 <script>
 export default {
+  props: ["bannerName"],
   data: function() {
     return {
-      selectBranchTitle: "Empresas",
-      enterpriseIcon: "icon warehouse",
+      selectBranchTitle: this.bannerName,
+      enterpriseIcon: "",
       company: true,
       warehouse: false,
       office: false,

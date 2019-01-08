@@ -1,35 +1,34 @@
 <template>
-  <div class="column branches is-half">
+  <div class="column branches is-half" v-bind:class="{ 'is-hidden': !isActive }">
     <!--Render Warehouse information-->
-    <EnterpriseBanner></EnterpriseBanner>
-    <ItemCompany></ItemCompany>
-    <!--Render display none mode-->
-    <ItemCompany></ItemCompany>
-    <!--Render blocked mode-->
-    <ItemCompany></ItemCompany>
-    <!--Render is active true mode-->
+    <EnterpriseBanner :bannerName="'Almacenes'"></EnterpriseBanner>
+    <div v-for="warehouseBranch in getStore" :key="warehouseBranch.branch_id">
+      <ItemCompany
+        :companyId="warehouseBranch.branch_id"
+        :companyName="warehouseBranch.name"
+        :companyTask="warehouseBranch.register_date"
+      ></ItemCompany>
+    </div>
     <hr>
     <!--Render Office information-->
-    <EnterpriseBanner></EnterpriseBanner>
-    <ItemCompany></ItemCompany>
-    <!--Render is active true mode-->
-    <ItemCompany></ItemCompany>
-    <!--Render blocked mode-->
-    <ItemCompany></ItemCompany>
-    <!--Render is active true mode-->
-    <ItemCompany></ItemCompany>
-    <!--Render display none mode-->
+    <EnterpriseBanner :bannerName="'Oficinas'"></EnterpriseBanner>
+    <div v-for="oficeBranch in getOffice" :key="oficeBranch.branch_id">
+      <ItemCompany
+        :companyId="oficeBranch.branch_id"
+        :companyName="oficeBranch.name"
+        :companyTask="oficeBranch.register_date"
+      ></ItemCompany>
+    </div>
     <hr>
     <!--Render Store information-->
-    <EnterpriseBanner></EnterpriseBanner>
-    <ItemCompany></ItemCompany>
-    <!--Render is active true mode-->
-    <ItemCompany></ItemCompany>
-    <!--Render blocked mode-->
-    <ItemCompany></ItemCompany>
-    <!--Render display none mode-->
-    <ItemCompany></ItemCompany>
-    <!--Render display none mode-->
+    <EnterpriseBanner :bannerName="'Tiendas'"></EnterpriseBanner>
+    <div v-for="storeBranch in getShops" :key="storeBranch.branch_id">
+      <ItemCompany
+        :companyId="storeBranch.branch_id"
+        :companyName="storeBranch.name"
+        :companyTask="storeBranch.register_date"
+      ></ItemCompany>
+    </div>
   </div>
 </template>
 
@@ -37,7 +36,10 @@
 import EnterpriseBanner from "./EnterpriseBanner.vue";
 import ItemCompany from "./ItemCompany";
 export default {
-  props: ["branch"],
+  props: {
+    isActive: Boolean,
+    branchesData: Array
+  },
   data: function() {
     return {
       branchesData: this.branch
@@ -49,6 +51,17 @@ export default {
   components: {
     EnterpriseBanner: EnterpriseBanner,
     ItemCompany: ItemCompany
+  },
+  computed: {
+    getShops() {
+      return this.branchesData.filter(branch => branch.type == "Shop");
+    },
+    getStore() {
+      return this.branchesData.filter(branch => branch.type == "Store");
+    },
+    getOffice() {
+      return this.branchesData.filter(branch => branch.type == "Office");
+    }
   }
 };
 </script>

@@ -3,8 +3,12 @@
     <!-- selecciona sucursal -->
     <div class="select-branch">
       <div class="columns">
-        <CompaniesComponent v-bind:company="companies"></CompaniesComponent>
-        <BranchesComponent v-bind:company="branches"></BranchesComponent>
+        <CompaniesComponent
+          :componentName="this.componentName"
+          :enterpriseData="showingEnterprises"
+          :branchesData="showingBranches"
+        ></CompaniesComponent>
+        <BranchesComponent :isActive="branchActive" :branchesData="showingBranches"></BranchesComponent>
       </div>
     </div>
   </div>
@@ -22,10 +26,10 @@ export default {
   },
   data() {
     return {
-      users: {},
-      companies: [],
-      branches: [],
-      showBranch: true
+      showBranch: true,
+      branchesActive: false,
+      componentName: "Empresas",
+      branchActive: true
     };
   },
   mounted() {
@@ -79,6 +83,14 @@ export default {
       .catch(function(error) {
         console.log(error);
       });
+  },
+  computed: {
+    showingBranches() {
+      return JSON.parse(localStorage.getItem("branches"));
+    },
+    showingEnterprises() {
+      return JSON.parse(localStorage.getItem("companies"));
+    }
   }
 };
 </script>

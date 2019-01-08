@@ -1,7 +1,7 @@
 <template>
   <div class="item company">
     <!--Is needed to change the company class for warehouse class if needed-->
-    <button class="select-item" :disabled="!isactive ? '' : disabled" @click.prevent="getBranches">
+    <button class="select-item" :disabled="!isactive ? '' : disabled" @click="getBranches()">
       <!-- The button has or not a disabled property-->
       <div class="info">
         <p>
@@ -20,10 +20,17 @@
     </button>
   </div>
 </template>
+
 <script>
 import ItemCompanyDisabled from "./ItemCompanyDisabled.vue";
 
 export default {
+  props: {
+    companyId: Number,
+    companyName: String,
+    companyTask: String,
+    gettingBranches: Array
+  },
   components: {
     ItemCompanyDisabled: ItemCompanyDisabled
   },
@@ -32,21 +39,29 @@ export default {
       enterpriseName: "",
       isactive: true,
       keyType: "RFC",
-      rfc: "POASHF12434",
-      warehouseKey: "90078434",
-      warehouseTitle: "Almacén Sonora Grill",
-      enterpriseData: ""
+      rfc: ""
     };
   },
   mounted() {
-    this.enterpriseData = JSON.parse(localStorage.getItem("companies"));
-    this.enterpriseName = this.enterpriseData[0].emitter.business_name;
-    this.rfc = this.enterpriseData[0].emitter.tax_id;
+    this.enterpriseName = this.companyName;
+    this.rfc = this.companyTask;
+  },
+  computed: {
+    getShops() {
+      return this.gettingBranches.filter(branch => branch.type == "Shop");
+    },
+    getStore() {
+      return this.gettingBranches.filter(branch => branch.type == "Store");
+    },
+    getOffice() {
+      return this.gettingBranches.filter(branch => branch.type == "Office");
+    }
   },
   methods: {
     getBranches() {
-      let branches = JSON.parse(localStorage.getItem("branches"));
-      console.log(branches);
+      console.log("The enterprise branches is loading");
+      let shopsAvailable = this.getShops; // it should be the branch filtered by company
+      this.$emit("enterpriseShops", shopsAvailable);
     }
   }
 };
